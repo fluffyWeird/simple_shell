@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+/**
+ * main - fork & wait example
+ *
+ * Return: Always 0.
+ */
+int main(void)
+{
+    pid_t child_pid;
+    int status;
+
+    child_pid = fork();
+    if (child_pid == -1)
+    {
+        perror("Error:");
+        return (1);
+    }
+    if (child_pid == 0)
+    {
+        printf("Wait for me, wait for me\n");
+    	printf("my pid: %d\n", getpid());
+	sleep(3);
+    }
+    else
+    {
+        int w = wait(&status);
+        printf("Oh, it's all better now wait : %d\n", w);
+	printf("my pid: %d\n", getpid());
+    }
+    return (0);
+}
