@@ -17,15 +17,14 @@
  */
 int main(void)
 {
-	char **env = environ, **argv;
-	char *line = NULL;
+	char **env = environ, **argv, *line = NULL, *argv_zero, *full_path;
 	size_t len = 0;
 	int status;
 	pid_t pid;
 
 	while (1)
 	{
-		if (write(STDOUT_FILENO, "#cisfun$ ", 9) == -1)
+		if (write(STDOUT_FILENO, "$ ", 2) == -1)
 			perror("write");
 		if (getline(&line, &len, stdin) == EOF)
 			break;
@@ -36,6 +35,18 @@ int main(void)
 			exit(EXIT_FAILURE);
 		}
 		if (argv[0] == NULL)
+		{
+			free(argv);
+			continue;
+		}
+		argv_zero = argv[0];
+		full_path = path_dir(argv_zero);
+		if (full_path != NULL)
+		{
+			argv[0] = _strdup(full_path);
+			free(argv_zero);
+		}
+		else
 		{
 			_free(argv);
 			continue;
@@ -50,9 +61,9 @@ int main(void)
 		{
 			wait(&status);
 		}
+		free(full_path);
 		_free(argv);
 	}
-
 	free(line);
 	return (0);
 }
