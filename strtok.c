@@ -12,7 +12,7 @@
  */
 char **_strtok(char *str, const char *delim)
 {
-	char *s, *token, **arr;
+	char *s, *token, **arr = NULL;
 	unsigned int i, j;
 
 	if (str == NULL)
@@ -22,7 +22,6 @@ char **_strtok(char *str, const char *delim)
 	if (s == NULL)
 		return (NULL);
 
-	arr = NULL;
 	i = 0;
 	arr = malloc(sizeof(char *) * (i + 2));
 	if (arr == NULL)
@@ -47,9 +46,7 @@ char **_strtok(char *str, const char *delim)
 		i++;
 		token = strtok(NULL, delim);
 		if (token != NULL)
-		{
 			arr = _realloc(arr, sizeof(char *) * (i + 1), sizeof(char *) * (i + 2));
-		}
 	}
 	arr[i] = NULL;
 	free(s);

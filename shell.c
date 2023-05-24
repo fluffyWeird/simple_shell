@@ -20,7 +20,6 @@ int main(void)
 	char **env = environ, **argv;
 	char *line = NULL;
 	size_t len = 0;
-	unsigned int j;
 	int status;
 	pid_t pid;
 
@@ -30,16 +29,15 @@ int main(void)
 			perror("write");
 		if (getline(&line, &len, stdin) == EOF)
 			break;
-
 		argv = _strtok(line, " \n");
 		if (argv == NULL)
 		{
 			perror("strtok");
-			exit (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		}
-
 		if (argv[0] == NULL)
 		{
+			_free(argv);
 			continue;
 		}
 		pid = _fork();
@@ -52,9 +50,7 @@ int main(void)
 		{
 			wait(&status);
 		}
-		for (j = 0; argv[j] != NULL; j++)
-			free(argv[j]);
-		free(argv);
+		_free(argv);
 	}
 
 	free(line);
