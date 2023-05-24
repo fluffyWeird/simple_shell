@@ -24,7 +24,7 @@ int main(void)
 
 	while (1)
 	{
-		if (write(STDOUT_FILENO, "$ ", 2) == -1)
+		if (write(STDOUT_FILENO, ":) ", 3) == -1)
 			perror("write");
 		if (getline(&line, &len, stdin) == EOF)
 			break;

@@ -26,7 +26,5 @@ int _setenv(const char *name, const char *value, int overwrite);
 char *_strdup(const char *str);
 char *str_concat(char *s1, char *s2);
 void _free(char **argv);
-char *_strcat(char *dest, char *src);
-int _strlen(char *s);
 
 #endif /* _MAIN_H_ */
