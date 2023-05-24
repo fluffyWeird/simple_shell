@@ -46,5 +46,6 @@ char *str_concat(char *s1, char *s2)
 		str[j + s1_len] = s2[j];
 	}
 	str[len - 1] = '\0';
+
 	return (str);
 }

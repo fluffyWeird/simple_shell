@@ -13,7 +13,7 @@
 char **_strtok(char *str, const char *delim)
 {
 	char *s, *token, **arr;
-	int i, j;
+	unsigned int i, j;
 
 	if (str == NULL)
 		return (NULL);
@@ -21,35 +21,37 @@ char **_strtok(char *str, const char *delim)
 	s = _strdup(str);
 	if (s == NULL)
 		return (NULL);
+
+	arr = NULL;
 	i = 0;
-	arr = malloc(sizeof(char *) * (i + 1));
+	arr = malloc(sizeof(char *) * (i + 2));
 	if (arr == NULL)
 	{
 		free(s);
-		return (NULL);
+		exit(EXIT_FAILURE);
 	}
-
 	token = strtok(s, delim);
 	while (token != NULL)
 	{
-		arr = _realloc(arr, sizeof(char *) * (i + 1), sizeof(char *) * (i + 1));
 		arr[i] = _strdup(token);
 		if (arr[i] == NULL)
 		{
+			free(s);
 			for (j = 0; j < i; j++)
 			{
 				free(arr[j]);
 			}
 			free(arr);
-			free(s);
 			return (NULL);
 		}
 		i++;
 		token = strtok(NULL, delim);
+		if (token != NULL)
+		{
+			arr = _realloc(arr, sizeof(char *) * (i + 1), sizeof(char *) * (i + 2));
+		}
 	}
 	arr[i] = NULL;
-
 	free(s);
-
 	return (arr);
 }

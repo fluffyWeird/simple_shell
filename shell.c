@@ -20,9 +20,9 @@ int main(void)
 	char **env = environ, **argv;
 	char *line = NULL;
 	size_t len = 0;
+	unsigned int j;
 	int status;
 	pid_t pid;
-	struct stat st;
 
 	while (1)
 	{
@@ -32,30 +32,31 @@ int main(void)
 			break;
 
 		argv = _strtok(line, " \n");
+		if (argv == NULL)
+		{
+			perror("strtok");
+			exit (EXIT_FAILURE);
+		}
 
 		if (argv[0] == NULL)
 		{
 			continue;
 		}
-		if ((stat(argv[0], &st) == 0) || (argv[0] = path_dir(argv[0])) != NULL)
+		pid = _fork();
+		if (pid == 0)
 		{
-			pid = _fork();
-			if (pid == 0)
-			{
-				_execve(argv[0], argv, env);
-			}
-			else
-			{
-				wait(&status);
-			}
+			_execve(argv[0], argv, env);
+			exit(EXIT_SUCCESS);
 		}
 		else
 		{
-			perror(argv[0]);
+			wait(&status);
 		}
+		for (j = 0; argv[j] != NULL; j++)
+			free(argv[j]);
+		free(argv);
 	}
 
 	free(line);
-
 	return (0);
 }

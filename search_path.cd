@@ -28,5 +28,7 @@ char *path_dir(char *program)
 
 		dir = strtok(NULL, ":");
 	}
+
+	free(path_d);
 	return (program);
 }
