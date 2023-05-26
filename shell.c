@@ -17,15 +17,15 @@
  */
 int main(void)
 {
-	char **env = environ, **argv, *line = NULL, *argv_zero, *full_path;
+	char **env = environ, **argv, *line = NULL, *full_path, *argv_zero;
+	char *exit_command = "exit";
 	size_t len = 0;
 	int status;
 	pid_t pid;
 
 	while (1)
 	{
-		if (write(STDOUT_FILENO, ":) ", 3) == -1)
-			perror("write");
+		_isatty();
 		if (getline(&line, &len, stdin) == EOF)
 			break;
 		argv = _strtok(line, " \n");
@@ -38,6 +38,12 @@ int main(void)
 		{
 			free(argv);
 			continue;
+		}
+		argv_zero = argv[0];
+		if (argv_zero == exit_command)
+		{
+			_free(argv);
+			exit(EXIT_SUCCESS);
 		}
 		argv_zero = argv[0];
 		full_path = path_dir(argv_zero);
@@ -61,7 +67,6 @@ int main(void)
 		{
 			wait(&status);
 		}
-		free(full_path);
 		_free(argv);
 	}
 	free(line);

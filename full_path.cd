@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include "main.h"
+
+/**
+ * full_path - handles the path.
+ * @argv: An array of arguments.
+ *
+ * Return: The command path.
+ */
+char *full_path(char **argv)
+{
+	char *argv_zero, *path, *full_path;
+	char *line = NULL;
+	size_t len = 0;
+
+	argv_zero = argv[0];
+	full_path = path_dir(argv_zero);
+	if (full_path != NULL)
+	{
+		path  = _strdup(full_path);
+		free(argv_zero);
+	}
+	else
+	{
+		_free(argv);
+		_isatty();
+		if (getline(&line, &len, stdin) != EOF)
+			;
+	}
+	free(full_path);
+	_free(argv);
+	return (path);
+}
