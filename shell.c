@@ -55,6 +55,7 @@ int main(void)
 		else
 		{
 			_free(argv);
+			free(full_path);
 			continue;
 		}
 		pid = _fork();
@@ -67,6 +68,7 @@ int main(void)
 		{
 			wait(&status);
 		}
+		free(full_path);
 		_free(argv);
 	}
 	free(line);
