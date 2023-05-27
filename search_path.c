@@ -59,7 +59,9 @@ char *path_dir(char *program)
 		free(program);
 		dir = strtok(NULL, ":");
 	}
-	perror("./shell");
+	write(STDERR_FILENO, "./hsh: 1: ", 10);
+	write(STDERR_FILENO, command, _strlen(command));
+	write(STDERR_FILENO, ": not found\n", 12);
 	free(command);
 	free(path_copy);
 	return (NULL);
